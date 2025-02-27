@@ -1,6 +1,6 @@
 # Decentralized Peer-to-Peer File Sharing System
 
-## Team Members
+## Team Members (Valorant)
 - Divya Jyoti Bagchi (223014182)
 - Arko Sarker (223014165)
 - Asif Ahamad (223014215)
