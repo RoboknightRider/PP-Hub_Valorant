@@ -66,3 +66,6 @@ We will follow **Agile** methodology, allowing for iterative development with fr
 - **Networking Tools**: Wireshark (for protocol analysis), Ngrok (for remote testing)
 - **Hosting (if needed)**: Self-hosted servers for tracker nodes
 - **Security Libraries**: PyCryptodome, OpenSSL
+
+
+abcd
