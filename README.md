@@ -66,6 +66,3 @@ We will follow **Agile** methodology, allowing for iterative development with fr
 - **Networking Tools**: Wireshark (for protocol analysis), Ngrok (for remote testing)
 - **Hosting (if needed)**: Self-hosted servers for tracker nodes
 - **Security Libraries**: PyCryptodome, OpenSSL
-
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
