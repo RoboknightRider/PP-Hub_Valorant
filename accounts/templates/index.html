@@ -13,7 +13,8 @@
     </div>
     <div class="container">
       <h2>Welcome Back!</h2>
-      <form class="login-form" action="dashboard.html" method="POST">
+      <form class="login-form" action="{% url 'dashboard' %}" method="POST">
+        {% csrf_token %}
         <div class="form-group">
           <label for="useremail">Email</label>
           <input type="email" id="useremail" name="email" required />

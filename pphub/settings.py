@@ -76,10 +76,15 @@ WSGI_APPLICATION = 'pphub.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': 'mydatabase',
+        'CLIENT': {
+            'host': 'mongodb://localhost:27017/',
+            'username': '',
+            'password': '',
+        }
     }
 }
+
 
 
 # Password validation
