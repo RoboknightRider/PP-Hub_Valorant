@@ -2,33 +2,39 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login - PPHub</title>
+    <title>PP-Hub</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" />
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
+   <script src="script.js" defer></script>
   </head>
   <body>
-    <div class="header">
-      <h1 class="logo">PPHub</h1>
-    </div>
-    <div class="container">
-      <h2>Welcome Back!</h2>
-      <form class="login-form" action="{% url 'dashboard' %}" method="POST">
-        {% csrf_token %}
-        <div class="form-group">
-          <label for="useremail">Email</label>
-          <input type="email" id="useremail" name="email" required />
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" required />
-        </div>
-        <button type="submit">Login</button>
-      </form>
-      <p class="register-link">
-        Don't have an account?
-        <a href="{% url 'register' %}">Register here</a>
-      </p>
-    </div>
+    <nav class="nav">
+      <i class="uil uil-bars navOpenBtn"></i>
+      <a href="#" class="logo">PP-Hub</a>
+      <ul class="nav-links">
+        <i class="uil uil-times navCloseBtn"></i>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Upload</a></li>
+        <li><a href="#">Download</a></li>
+        <li><a href="{% url 'login' %}">Sign in</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+      <i class="uil uil-search search-icon" id="searchIcon"></i>
+      <div class="search-box">
+        <i class="uil uil-search search-icon"></i>
+        <input type="text" placeholder="Search here..." />
+      </div>
+    </nav>
+    <div class="bg-image"></div>
+    <div class="center-content">
+        <h1>Welcome to PP-Hub</h1>
+        <p>Find and share files easily</p>
+        <div class="main-search-box">
+          <i class="uil uil-search"></i>
+          <input type="text" placeholder="Search files..." />
+          <button>Search</button>
   </body>
 </html>

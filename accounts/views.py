@@ -54,7 +54,10 @@ def user_login(request):
             return redirect("dashboard")
         else:
             messages.error(request, "Invalid credentials")
-    return render(request, "index.html")
+    return render(request, "login.html")
+
+def home_view(request):
+    return render(request, 'index.html')
 
 def dashboard_view(request):
     return render(request, 'dashboard.html')
