@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register - PPHub</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body>
+    <!-- Blurred Background -->
+    <div class="bg-image"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="nav">
+      <a href="#" class="logo">PPHub</a>
+      <ul class="nav-links">
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- Registration Form -->
+    <div class="center-content">
+      <h2>Create an Account</h2>
+      <form class="register-form" action="dashboard.html" method="POST">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required />
+        </div>
+        <div class="form-group">
+          <label for="id">ID</label>
+          <input type="text" id="id" name="id" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required />
+        </div>
+        <div class="form-group">
+          <label for="confirm-password">Confirm Password</label>
+          <input type="password" id="confirm-password" name="confirm-password" required />
+        </div>
+        <button type="submit">Register</button>
+      </form>
+      <p class="login-link">
+        Already have an account? <a href="{% url 'login' %}">Login here</a>
+      </p>
+    </div>
+  </body>
+</html>

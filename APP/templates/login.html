@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - PPHub</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body>
+    <!-- Blurred Background -->
+    <div class="bg-image"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="nav">
+      <a href="#" class="logo">PPHub</a>
+      <ul class="nav-links">
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- Login Form -->
+    <div class="center-content">
+      <h2>Welcome Back!</h2>
+      <form class="login-form" action="dashboard.html" method="POST">
+        <div class="form-group">
+          <label for="useremail">Email</label>
+          <input type="email" id="useremail" name="email" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required />
+        </div>
+        <button type="submit">Login</button>
+      </form>
+      <p class="register-link">
+        Don't have an account?
+        <a href="{% url 'register' %}">Register here</a>
+      </p>
+    </div>
+  </body>
+</html>
