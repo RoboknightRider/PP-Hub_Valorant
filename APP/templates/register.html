@@ -25,7 +25,7 @@
     <!-- Registration Form -->
     <div class="center-content">
       <h2>Create an Account</h2>
-      <form class="register-form" action="dashboard.html" method="POST">
+      <form class="register-form" action="{% url 'dashboard' %}" method="POST">
         <div class="form-group">
           <label for="name">Name</label>
           <input type="text" id="name" name="name" required />
