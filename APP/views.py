@@ -56,6 +56,8 @@ def login(request):
             messages.error(request, "Invalid credentials")
     return render(request, 'login.html')
 def dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('home') 
     return render(request, 'dashboard.html')
 def logout(request):
     return render(request, 'logout.html')

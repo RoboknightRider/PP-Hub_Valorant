@@ -14,7 +14,7 @@ body {
     overflow: hidden;
 }
 
-bg-image {
+.bg-image {
     position: absolute;
     top: 0;
     left: 0;
@@ -26,7 +26,7 @@ bg-image {
     z-index: -1;
 }
 
-bg-image::after {
+.bg-image::after {
     content: "";
     position: absolute;
     top: 0;
@@ -36,7 +36,7 @@ bg-image::after {
     background: rgba(0, 0, 0, 0.5); /* Dark overlay */
 }
 
-container-custom {
+.container-custom {
     max-width: 400px;
     background: white;
     padding: 40px;
