@@ -3,7 +3,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.middleware.csrf import get_token
-from django.contrib.auth.hashers import make_password
 from .models import StudentProfile, UploadedFile
 
 def home(request):
