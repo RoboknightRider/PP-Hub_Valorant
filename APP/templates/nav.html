@@ -1,22 +1,23 @@
 <a href="/">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
 
-    <nav class="nav-custom d-flex align-items-center justify-content-between">
-        <a href="#" class="logo">PP-Hub</a>
-        <ul class="nav-links d-flex">
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="#">Upload</a></li>
-            <li><a href="#">Download</a></li>
-            <li><a href="#">Contact Us</a></li>
-            {% if request.user.is_authenticated %}
-                <li><a href="{% url 'logout' %}">Log out</a></li>
-            {% else %}
-                <li><a href="{% url 'login' %}">Sign in</a></li>
-            {% endif %}
-        </ul>
-        <div class="search-box">
-            <input type="text" placeholder="Search here...">
-            <i class="fas fa-search"></i>
+    <nav class="nav-custom">
+        <a href="/dashboard" class="logo">PP-Hub</a>
+        <div class="nav-right">
+            <ul class="nav-links d-flex align-items-center">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'upload' %}">Upload</a></li>
+                <li><a href="#">Download</a></li>
+                {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'logout' %}">Log out</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Sign in</a></li>
+                {% endif %}
+                <div class="search-box">
+                    <input type="text" placeholder="Search here...">
+                    <i class="fas fa-search"></i>
+                </div>
+            </ul>
         </div>
     </nav>
 
@@ -28,9 +29,7 @@
             align-items: center;
             justify-content: space-between;
             flex-wrap: nowrap; /* Prevent wrapping */
-            overflow: hidden;
-            min-width: 0;
-        }
+}
 
         .nav-custom .logo {
             font-size: 30px;
@@ -39,7 +38,8 @@
             text-decoration: none;
             font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
             white-space: nowrap; /* Prevents wrapping */
-            flex-shrink: 1; /* Allow it to scale down */
+            margin-left: 0;  /* Aligns logo to the left */
+            flex-shrink: 0;  /* Prevents it from shrinking */
         }
 
         .nav-links {

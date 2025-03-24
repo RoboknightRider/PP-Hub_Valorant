@@ -17,7 +17,7 @@
     <div class="d-flex justify-content-center align-items-center vh-100">
         <div class="container-custom text-center">
             <h2>Create an Account</h2>
-            <form action="#" method="POST">
+            <form action="{% url 'register' %}" method="POST"> {% csrf_token %}
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
                     <input type="text" id="name" name="name" class="form-control" required>

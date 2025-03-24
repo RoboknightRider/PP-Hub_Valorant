@@ -21,46 +21,17 @@
       margin-bottom: 10px;
       text-wrap: nowrap;
     }
-    .main-search-box {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        background: white;
-        padding: 10px;
-        border-radius: 20px;
-    }
-    .main-search-box input {
-      padding: 8px;
-      border: none;
-      outline: none;
-      width: 250px;
 
-    }
-    .main-search-box button {
-      padding: 8px 15px;
-      border: none;
-      background: #4a98f7;
-      color: #fcfafa;
-      cursor: pointer;
-      border-radius: 15px;
-    }
-    .main-search-box button:hover {
-      background: #357acb;
-    }
 </style>
 </head>
 <body>
   {%include 'nav.html' %}
   <div class="bg-image"></div>
-  <div class="center-content">
-    <h1>Welcome to PP-Hub</h1>
-    <p>Find and share files easily</p>
-    <div class="main-search-box">
-      <i class="fas fa-search"></i>
-      <input type="text" placeholder="Search files..." />
-      <button>Search</button>
-    </div>
+  <div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="container-custom text-center">
+      <h2>Logged out</h2>
+      <p>You can always come back</p>
+      <a href="{% url 'login' %}" class="btn btn-primary">Login Again</a>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
