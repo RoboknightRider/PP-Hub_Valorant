@@ -1,93 +1,89 @@
-<a href="/">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
 
-    <nav class="nav-custom">
-        <a href="" class="logo">PP-Hub</a>
-        <div class="nav-right">
-            <ul class="nav-links d-flex align-items-center">
-                <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'upload' %}">Upload</a></li>
-                <li><a href="#">Download</a></li>
-                {% if request.user.is_authenticated %}
-                    <li><a href="{% url 'logout' %}">Log out</a></li>
-                {% else %}
-                    <li><a href="{% url 'login' %}">Sign in</a></li>
-                {% endif %}
-                <div class="search-box">
-                    <input type="text" placeholder="Search here...">
-                    <i class="fas fa-search"></i>
-                </div>
-            </ul>
-        </div>
-    </nav>
+<nav class="nav-custom">
+    <a href="{% url 'home' %}" class="logo">PP-Hub</a>
+    <div class="nav-right">
+        <ul class="nav-links d-flex align-items-center">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'upload' %}">Upload</a></li>
+            <li><a href="{% url 'files' %}">Files</a></li>
+            {% if request.user.is_authenticated %}
+                <li><a href="{% url 'logout' %}">Log out</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Sign in</a></li>
+            {% endif %}
+            <div class="search-box">
+                <form method="GET" action="{% url 'files' %}" style="position: relative;">
+                    <input type="text" name="search" placeholder="Search here..." required />
+                    <button type="submit" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer;">
+                        <i class="fas fa-search" style="color: #4a98f7;"></i>
+                    </button>
+                </form>
+            </div>
+        </ul>
+    </div>
+</nav>
 
-    <style>
-        .nav-custom {
-            background: #4a98f7;
-            padding: 15px 50px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: nowrap; /* Prevent wrapping */
-        }
+<style>
+    .nav-custom {
+        background: #4a98f7;
+        padding: 15px 50px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: nowrap; /* Prevent wrapping */
+        width: 100%; /* Ensure it spans the full width */
+        position: fixed; /* Ensure it stays in place */
+        box-sizing: border-box; /* Include padding in width calculation */
+    }
 
-        .nav-custom .logo {
-            font-size: 30px;
-            font-weight: bold;
-            color: white;
-            text-decoration: none;
-            font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-            white-space: nowrap; /* Prevents wrapping */
-            margin-left: 0;  /* Aligns logo to the left */
-            flex-shrink: 0;  /* Prevents it from shrinking */
-        }
+    .nav-custom .logo {
+        font-size: 30px;
+        font-weight: bold;
+        color: white;
+        text-decoration: none;
+        font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+        white-space: nowrap; /* Prevents wrapping */
+        margin-left: 0; /* Aligns logo to the left */
+        flex-shrink: 0; /* Prevents it from shrinking */
+    }
 
-        .nav-links {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            padding: 0;
-            margin: 0;
-            flex-wrap: nowrap; /* Prevent wrapping */
-            min-width: 0;
-        }
+    .nav-links {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        padding: 0;
+        margin: 0;
+        flex-wrap: nowrap; /* Prevent wrapping */
+        min-width: 0;
+    }
 
-        .nav-links a {
-            color: white;
-            font-weight: 500;
-            text-decoration: none;
-            transition: all 0.3s ease-in-out;
-            white-space: nowrap; /* Prevents text from wrapping */
-            flex-shrink: 1; /* Allow links to shrink if needed */
-        }
+    .nav-links a {
+        color: white;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.3s ease-in-out;
+        white-space: nowrap; /* Prevents text from wrapping */
+        flex-shrink: 1; /* Allow links to shrink if needed */
+    }
 
-        .nav-links a:hover {
-            text-decoration: underline;
-        }
+    .nav-links a:hover {
+        text-decoration: underline;
+    }
 
-        .search-box {
-            position: relative;
-            flex-shrink: 1; /* Allow it to scale down */
-            min-width: 150px; /* Prevents it from getting too small */
-        }
+    .search-box {
+        position: relative;
+        flex-shrink: 1; /* Allow it to scale down */
+        min-width: 150px; /* Prevents it from getting too small */
+    }
 
-        .search-box input {
-            border: none;
-            padding: 8px 10px;
-            border-radius: 5px;
-            width: 100%;
-            outline: none;
-            min-width: 50px; /* Prevents it from disappearing */
-        }
-
-        .search-box i {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #4a98f7;
-        }
-
-    </style>
-</a>
+    .search-box input {
+        border: none;
+        padding: 8px 10px;
+        border-radius: 5px;
+        width: 100%;
+        outline: none;
+        min-width: 50px; /* Prevents it from disappearing */
+    }
+</style>

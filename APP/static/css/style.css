@@ -17,36 +17,20 @@ body {
     align-items: flex-start; /* Align the container at the top */
 }
 
-.bg-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url("https://ecdn.dhakatribune.net/contents/cache/images/900x505x1/uploads/media/2023/10/12/ulab-0e9b6264ad67e2ff6151708f6b3688bd.jpg?jadewits_media_id=6568")
-        no-repeat center center/cover;
-    filter: blur(7px);
-    z-index: -1;
-}
-
-.bg-image::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
-}
-
 .container-custom {
     background: white;
     padding: 40px;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 80px; 
     margin-right: 5px; /* Add a 5px margin on the right */
-    flex: 1; /* Allow the container to grow and fill the remaining space */
-    min-height: calc(100vh - 10px); /* Ensure it fills the vertical space with some margin */
-    max-width: calc(100% - 10px); /* Prevent overflow */
-    overflow-y: auto; /* Add scrolling if content overflows vertically */
+    margin-left: 260px;
+    align-items: center;
+    justify-content: center;
+}
+
+.container-custom h2 {
+    margin-bottom: 10px;
+    text-wrap: nowrap;
+    text-align: center;
 }

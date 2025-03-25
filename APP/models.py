@@ -15,7 +15,7 @@ class UploadedFile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     type = models.CharField(max_length=100, null=True)
-    file = models.FileField(upload_to="uploads/",) 
+    file = models.FileField(upload_to="uploads/")  # Files will be saved in MEDIA_ROOT/uploads/
     description = models.TextField()
     uploaded_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

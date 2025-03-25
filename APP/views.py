@@ -58,10 +58,9 @@ def register(request):
     return render(request, "register.html", {"csrf_token": get_token(request)})
 def login_view(request):
     if request.method == "POST":
-        email = request.POST["email"]
+        username = request.POST["username"]
         password = request.POST["password"]
-        cuser = User.objects.get(email=email)
-        user = authenticate(request, username=cuser.username, password=password)
+        user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
             return redirect("home")
@@ -72,6 +71,9 @@ def logout_view(request):
     logout(request)
     return render(request, 'logout.html')
 def upload(request):
+    if not request.user.is_authenticated:
+        messages.error(request, "You need to log in to upload file.")
+        return redirect("login")
     if request.method == "POST":
         name = request.POST.get("name")
         description = request.POST.get("description")
@@ -109,3 +111,10 @@ def uploaded_file_detail(request, pk):
 
     file = get_object_or_404(UploadedFile, pk=pk)  # Fetch the file by its primary key
     return render(request, 'uploaded_file_detail.html', {"file": file})
+def files(request):
+    query = request.GET.get('search')  # Get the search query from the URL
+    if query:  # If a search query is provided
+        files = UploadedFile.objects.filter(name__icontains=query)  # Filter files by name
+    else:  # If no search query is provided, render all files
+        files = UploadedFile.objects.all()
+    return render(request, 'files.html', {"query": query, "files": files})
