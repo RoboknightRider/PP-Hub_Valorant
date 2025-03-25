@@ -1,0 +1,36 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    position: relative;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    display: flex; /* Use flexbox to manage layout */
+    justify-content: center; /* Center the container horizontally */
+    align-items: flex-start; /* Align the container at the top */
+}
+
+.container-custom {
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 80px; 
+    margin-right: 5px; /* Add a 5px margin on the right */
+    margin-left: 260px;
+    align-items: center;
+    justify-content: center;
+}
+
+.container-custom h2 {
+    margin-bottom: 10px;
+    text-wrap: nowrap;
+    text-align: center;
+}

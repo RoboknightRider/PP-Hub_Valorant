@@ -1,0 +1,59 @@
+{% include 'includes/head.html' %}
+<body>
+  {%include 'includes/background.html' %}
+  {%include 'includes/nav.html' %}
+  {%include 'includes/messages.html' %}
+  <div class="center-content">
+    <h1>Welcome to PP-Hub</h1>
+    <p>Find and share files easily</p>
+    <div class="main-search-box">
+      <form method="GET" action="{% url 'files' %}">
+        <i class="fas fa-search"></i>
+        <input type="text" name="search" placeholder="Search files..." required />
+        <button type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</body>
+<style>
+    .center-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: #fff;
+      }
+    .center-content h1 {
+      font-size: 40px;
+      margin-bottom: 10px;
+      text-wrap: nowrap;
+    }
+    .main-search-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background: white;
+        padding: 10px;
+        border-radius: 20px;
+    }
+    .main-search-box input {
+      padding: 8px;
+      border: none;
+      outline: none;
+      width: 250px;
+
+    }
+    .main-search-box button {
+      padding: 8px 15px;
+      border: none;
+      background: #4a98f7;
+      color: #fcfafa;
+      cursor: pointer;
+      border-radius: 15px;
+    }
+    .main-search-box button:hover {
+      background: #357acb;
+    }
+</style>

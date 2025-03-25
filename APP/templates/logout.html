@@ -1,0 +1,11 @@
+{% include 'includes/head.html' %}
+<body>
+  {%include 'includes/background.html' %}
+  {%include 'includes/nav.html' %}
+  {%include 'includes/messages.html' %}
+    <div class="container-custom text-center">
+      <h2>Logged out</h2>
+      <p>You can always come back</p>
+      <a href="{% url 'login' %}" class="btn btn-primary">Login Again</a>
+    </div>
+</body>

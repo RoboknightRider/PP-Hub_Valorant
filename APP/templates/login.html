@@ -1,0 +1,24 @@
+{% include 'includes/head.html' %}
+<body>
+    {%include 'includes/background.html' %}
+    {%include 'includes/nav.html' %}
+    <!-- Login Form -->
+    <div class="container-custom">
+        <h2>Welcome Back!</h2>
+        {%include 'includes/messages.html' %}
+        <form action="" method="POST"> {% csrf_token %}
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="username" id="username" name="username" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
+        <p class="mt-3">
+            Don't have an account? <a href="{% url 'register' %}">Register here</a>
+        </p>
+    </div>
+</body>

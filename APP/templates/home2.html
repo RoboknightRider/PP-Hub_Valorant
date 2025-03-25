@@ -1,0 +1,21 @@
+{% include 'includes/head.html' %}
+<body>
+  {%include 'includes/background.html' %}
+  {%include 'includes/nav.html' %}
+  {%include 'includes/dashboard.html' %}
+  {%include 'includes/messages.html' %}
+  <div class="container-custom">
+    <h2>Latest Uploaded Files</h2>
+    <ul class="list-group">
+      {% for file in latest_files %}
+        <li class="list-group-item">
+          <strong><a href="{% url 'uploaded_file_detail' file.pk %}">{{ file.name }}</a></strong> <br>
+          Uploader: {{ file.user.username }} <br>
+          {{ file.uploaded_at|date:"F j, Y, g:i a" }}
+        </li>
+      {% empty %}
+        <li class="list-group-item">No files have been uploaded yet.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</body>

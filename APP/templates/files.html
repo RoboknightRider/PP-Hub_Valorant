@@ -1,0 +1,27 @@
+{% include 'includes/head.html' %}
+<body>
+  {% include 'includes/background.html' %}
+  {% include 'includes/nav.html' %}
+  {% include 'includes/messages.html' %}
+
+  <div class="container-custom">
+    {% if query %}
+      <h2>Search Results for "{{ query }}"</h2>
+    {% else %}
+      <h2>Files</h2>
+    {% endif %}
+    {% if files %}
+      <ul class="list-group">
+        {% for file in files %}
+          <li class="list-group-item">
+            <strong><a href="{% url 'uploaded_file_detail' file.pk %}">{{ file.name }}</a></strong> <br>
+            Uploader: {{ file.user.username }} <br>
+            {{ file.uploaded_at|date:"F j, Y, g:i a" }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No files found matching your search.</p>
+    {% endif %}
+  </div>
+</body>
