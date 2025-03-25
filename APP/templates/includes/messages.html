@@ -1,0 +1,11 @@
+<a href="/">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+
+    {% if messages %}
+        <ul class="messages" style="color: green; font-weight: bold;">
+        {% for message in messages %}
+            <p class="{{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+        </ul>
+    {% endif %}
+</a>

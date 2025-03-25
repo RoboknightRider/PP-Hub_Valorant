@@ -4,9 +4,16 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.middleware.csrf import get_token
 from .models import StudentProfile, UploadedFile
+from django.shortcuts import get_object_or_404
+import os
 
 def home(request):
-    return render(request, 'home.html')
+    if not request.user.is_authenticated:
+        return render(request, 'home.html')
+    else:
+        Profile = StudentProfile.objects.get(user=request.user)
+        latest_files = UploadedFile.objects.order_by('-uploaded_at')[:10]
+        return render(request, 'home2.html', {"profile": Profile, "latest_files": latest_files})
 def register(request):
     if request.method == "POST":
         name = request.POST.get("name")
@@ -57,16 +64,10 @@ def login_view(request):
         user = authenticate(request, username=cuser.username, password=password)
         if user:
             login(request, user)
-            return redirect("dashboard")
+            return redirect("home")
         else:
             messages.error(request, "Invalid credentials")
     return render(request, 'login.html', {"csrf_token": get_token(request)})
-def dashboard(request):
-    if not request.user.is_authenticated:
-       return redirect('home') 
-    
-    Profile = StudentProfile.objects.get(user=request.user)
-    return render(request, 'dashboard.html', {"profile": Profile})
 def logout_view(request):
     logout(request)
     return render(request, 'logout.html')
@@ -77,7 +78,34 @@ def upload(request):
         file = request.FILES.get("file")
         type = file.content_type
         user = request.user
-        UploadedFile.objects.create(user=user, name=name, type=type, file=file, description=description)
+
+        # Check if the file already exists
+        if UploadedFile.objects.filter(name=name, user=user).exists():
+            messages.error(request, "A file with this name already exists.")
+            return redirect("upload")
+
+        # Get the file type from the file name
+        file_extension = os.path.splitext(file.name)[1].lower()  # Extract the file extension
+        if file_extension.startswith("."):
+            file_type = file_extension[1:]  # Remove the leading dot (e.g., ".jpg" -> "jpg")
+        else:
+            file_type = "unknown"
+
+        # Create the UploadedFile object
+        UploadedFile.objects.create(
+            user=user,
+            name=name,
+            type=file_type,
+            file=file,
+            description=description
+        )
         messages.success(request, "File uploaded successfully")
-        return redirect("dashboard")
+        return redirect("upload")
     return render(request, 'upload.html', {"csrf_token": get_token(request)})
+def uploaded_file_detail(request, pk):
+    if not request.user.is_authenticated:
+        messages.error(request, "You need to log in to view file details.")
+        return redirect("login")
+
+    file = get_object_or_404(UploadedFile, pk=pk)  # Fetch the file by its primary key
+    return render(request, 'uploaded_file_detail.html', {"file": file})
