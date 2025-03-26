@@ -11,4 +11,5 @@ urlpatterns = [
     path('upload/', views.upload, name='upload'),
     path('file/<int:pk>/', views.uploaded_file_detail, name='uploaded_file_detail'),
     path('files', views.files, name='files'),
+    path('profile/', views.profile_view, name='profile'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

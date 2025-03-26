@@ -1,0 +1,30 @@
+{% include 'includes/head.html' %}
+<body>
+  {% include 'includes/background.html' %} {% include 'includes/nav.html' %} {%
+  include 'includes/messages.html' %} {%include 'includes/dashboard.html' %}
+
+  <div class="container-custom">
+    <h2>Profile</h2>
+    <div class="profile-info">
+      <p><strong>Username:</strong> {{ user.username }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+    </div>
+
+    <h3>Uploaded Files</h3>
+    <ul class="list-group">
+      {% for file in uploaded_files %}
+      <li class="list-group-item">
+        <strong
+          ><a href="{% url 'uploaded_file_detail' file.pk %}"
+            >{{ file.name }}</a
+          ></strong
+        >
+        <br />
+        Uploaded on: {{ file.uploaded_at|date:"F j, Y, g:i a" }}
+      </li>
+      {% empty %}
+      <li class="list-group-item">No files uploaded yet.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</body>

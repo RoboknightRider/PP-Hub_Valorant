@@ -118,3 +118,11 @@ def files(request):
     else:  # If no search query is provided, render all files
         files = UploadedFile.objects.all()
     return render(request, 'files.html', {"query": query, "files": files})
+
+def profile_view(request):
+    if not request.user.is_authenticated:
+        return render(request, 'home.html')
+    else:
+        Profile = StudentProfile.objects.get(user=request.user)
+        latest_files = UploadedFile.objects.order_by('-uploaded_at')[:10]
+        return render(request, 'profile.html', {"profile": Profile, "latest_files": latest_files})
