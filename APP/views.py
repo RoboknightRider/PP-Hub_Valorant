@@ -6,6 +6,11 @@ from django.middleware.csrf import get_token
 from .models import StudentProfile, UploadedFile
 from django.shortcuts import get_object_or_404
 import os
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from .models import ChatMessage
+from django.contrib.auth.decorators import login_required
+import json
 
 def home(request):
     if not request.user.is_authenticated:
@@ -113,8 +118,50 @@ def uploaded_file_detail(request, pk):
     return render(request, 'uploaded_file_detail.html', {"file": file})
 def files(request):
     query = request.GET.get('search')  # Get the search query from the URL
-    if query:  # If a search query is provided
-        files = UploadedFile.objects.filter(name__icontains=query)  # Filter files by name
-    else:  # If no search query is provided, render all files
-        files = UploadedFile.objects.all()
-    return render(request, 'files.html', {"query": query, "files": files})
+    try:
+        if query:  # If a search query is provided
+            print(f"Searching for files with query: {query}")  # Debugging log
+            files = UploadedFile.objects.filter(name__icontains=query)  # Filter files by name
+        else:  # If no search query is provided, render all files
+            print("No search query provided. Fetching all files.")  # Debugging log
+            files = UploadedFile.objects.all()
+
+        # Optional: Add pagination
+        from django.core.paginator import Paginator
+        paginator = Paginator(files, 10)  # Show 10 files per page
+        page_number = request.GET.get('page')
+        files_page = paginator.get_page(page_number)
+
+        return render(request, 'files.html', {"query": query, "files": files_page})
+    except Exception as e:
+        print(f"Error fetching files: {str(e)}")  # Debugging log
+        messages.error(request, "An error occurred while fetching files.")
+        return redirect('home')
+
+@login_required
+def get_messages(request):
+    messages = ChatMessage.objects.order_by('timestamp').values('user__username', 'message', 'timestamp')
+    return JsonResponse(list(messages), safe=False)
+
+@csrf_exempt
+@login_required
+def save_message(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            message = data.get('message')
+            if message:
+                print(f"Saving message: {message} from user: {request.user.username}")  # Debugging log
+                ChatMessage.objects.create(user=request.user, message=message)
+                return JsonResponse({'status': 'success'})
+            else:
+                print("Error: Message is empty")  # Debugging log
+                return JsonResponse({'status': 'error', 'message': 'Message is empty'}, status=400)
+        except json.JSONDecodeError:
+            print("Error: Invalid JSON")  # Debugging log
+            return JsonResponse({'status': 'error', 'message': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            print(f"Error: {str(e)}")  # Debugging log
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+    print("Error: Invalid request method")  # Debugging log
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
