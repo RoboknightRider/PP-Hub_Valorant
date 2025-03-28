@@ -5,7 +5,7 @@
     {%include 'includes/dashboard.html' %}
     
     <!-- Upload Form -->
-    <div class="container-custom">
+    <div class="container-custom" style="margin-left: 260px;">
         <h2>Upload File</h2>
         {%include 'includes/messages.html' %}
         <form action="{% url 'upload' %}" method="POST" enctype="multipart/form-data"> {% csrf_token %}

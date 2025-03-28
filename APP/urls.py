@@ -11,4 +11,7 @@ urlpatterns = [
     path('upload/', views.upload, name='upload'),
     path('file/<int:pk>/', views.uploaded_file_detail, name='uploaded_file_detail'),
     path('files', views.files, name='files'),
+    path('profile/', views.profile_view, name='profile'),
+    path('api/get_messages/', views.get_messages, name='get_messages'),
+    path('api/save_message/', views.save_message, name='save_message'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

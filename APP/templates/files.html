@@ -2,9 +2,13 @@
 <body>
   {% include 'includes/background.html' %}
   {% include 'includes/nav.html' %}
+  {% if user.is_authenticated %}
+    {% include 'includes/dashboard.html' %}
+    <div class="container-custom" style="margin-left: 260px;">
+  {% else %}
+    <div class="container-custom">
+  {% endif %}
   {% include 'includes/messages.html' %}
-
-  <div class="container-custom">
     {% if query %}
       <h2>Search Results for "{{ query }}"</h2>
     {% else %}

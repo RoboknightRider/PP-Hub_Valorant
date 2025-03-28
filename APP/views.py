@@ -3,9 +3,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.middleware.csrf import get_token
-from .models import StudentProfile, UploadedFile
+from .models import StudentProfile, UploadedFile, ChatMessage
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
-import os
+import os, json
+from django.http import JsonResponse
 
 def home(request):
     if not request.user.is_authenticated:
@@ -28,6 +31,10 @@ def register(request):
 
         if email.find("@ulab.edu.bd") == -1:
             messages.error(request, "Please use your ULAB email")
+            return redirect("register")
+        
+        if len(password) < 3:
+            messages.error(request, "Password must be at least 3 characters long")
             return redirect("register")
         
         # Check if passwords match
@@ -118,3 +125,38 @@ def files(request):
     else:  # If no search query is provided, render all files
         files = UploadedFile.objects.all()
     return render(request, 'files.html', {"query": query, "files": files})
+def profile_view(request):
+    if not request.user.is_authenticated:
+        return render(request, 'home.html')
+    else:
+        profile = StudentProfile.objects.get(user=request.user)
+        uploaded_files = UploadedFile.objects.filter(user=request.user).order_by('-uploaded_at')  # Fetch files uploaded by the logged-in user
+        file_count = uploaded_files.count()
+        return render(request, 'profile.html', {"profile": profile, "uploaded_files": uploaded_files, "file_count": file_count})
+@login_required
+def get_messages(request):
+    messages = ChatMessage.objects.order_by('timestamp').values('user__username', 'message', 'timestamp')
+    return JsonResponse(list(messages), safe=False)
+
+@csrf_exempt
+@login_required
+def save_message(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            message = data.get('message')
+            if message:
+                print(f"Saving message: {message} from user: {request.user.username}")  # Debugging log
+                ChatMessage.objects.create(user=request.user, message=message)
+                return JsonResponse({'status': 'success'})
+            else:
+                print("Error: Message is empty")  # Debugging log
+                return JsonResponse({'status': 'error', 'message': 'Message is empty'}, status=400)
+        except json.JSONDecodeError:
+            print("Error: Invalid JSON")  # Debugging log
+            return JsonResponse({'status': 'error', 'message': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            print(f"Error: {str(e)}")  # Debugging log
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+    print("Error: Invalid request method")  # Debugging log
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
