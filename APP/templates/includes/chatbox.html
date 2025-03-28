@@ -1,0 +1,87 @@
+<!-- Chatbox Section -->
+<div id="chat-container" style="position: fixed; top: 80px; right: 0; width: 30%; height: calc(100% - 80px); border-left: 1px solid #ccc; padding: 10px; background-color: #000; color: white; box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1); overflow-y: auto; border-radius: 10px;">
+    <h3 style="margin: 0; padding-bottom: 10px; border-bottom: 1px solid #444;">Chat</h3>
+    <div id="messages" style="height: calc(100% - 100px); overflow-y: auto; border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; background-color: #222; color: white; border-radius: 10px;"></div>
+        <div id="message-input" style="display: flex;">
+        <input type="text" id="message" placeholder="Type your message here..." 
+                style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 10px; background-color: #333; color: white;"
+                onkeydown="handleKeyPress(event)">
+        <button onclick="sendMessage()" style="padding: 10px; margin-left: 5px; border: none; background-color: #007bff; color: white; border-radius: 10px; cursor: pointer;">Send</button>
+    </div>
+</div>
+
+<script>
+const messagesDiv = document.getElementById('messages');
+const username = "{{ user.username }}"; // Get the logged-in user's username
+
+// Fetch messages from the server
+async function fetchMessages() {
+    try {
+    const response = await fetch('/api/get_messages/');
+    if (!response.ok) {
+        console.error('Failed to fetch messages:', response.statusText);
+        return;
+    }
+    const messages = await response.json();
+    messagesDiv.innerHTML = '';
+    messages.forEach(msg => {
+        const messageElement = document.createElement('div');
+        messageElement.innerHTML = `
+        <small>${new Date(msg.timestamp).toLocaleString()}</small>  <br>
+        <strong>${msg.user__username}:</strong> ${msg.message} <br>`;
+        messageElement.style.marginBottom = '5px';
+        messageElement.style.padding = '5px';
+        messageElement.style.borderRadius = '5px';
+        messageElement.style.backgroundColor = '#444';
+        messageElement.style.color = 'white';
+        messagesDiv.appendChild(messageElement);
+    });
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    } catch (error) {
+    console.error('Error fetching messages:', error);
+    }
+}
+
+// Send a new message to the server
+async function sendMessage() {
+    const messageInput = document.getElementById('message');
+    const messageText = messageInput.value.trim();
+
+    if (messageText) {
+    console.log('Sending message:', messageText); // Debugging log
+    try {
+        const response = await fetch('/api/save_message/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}' // Ensure CSRF token is included
+        },
+        body: JSON.stringify({ message: messageText })
+        });
+
+        if (response.ok) {
+        console.log('Message sent successfully'); // Debugging log
+        messageInput.value = '';
+        fetchMessages();
+        } else {
+        console.error('Failed to send message:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error sending message:', error);
+    }
+    } else {
+    console.warn('Message is empty. Please type something before sending.');
+    }
+}
+
+// Handle key press in the input field
+function handleKeyPress(event) {
+    if (event.key === 'Enter') {
+    event.preventDefault(); // Prevent default form submission behavior
+    sendMessage(); // Trigger the sendMessage function
+    }
+}
+
+// Fetch messages on page load
+fetchMessages();
+</script>
