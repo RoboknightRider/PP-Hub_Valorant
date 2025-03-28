@@ -8,13 +8,22 @@
   <div class="container-custom" style="margin-left: 260px;">
     <h2>Profile</h2>
     <div class="profile-info">
-      <p><strong>Username:</strong> {{ user.username }}</p>
-      <p><strong>Student ID:</strong> {{ profile.std_id }}</p>
-      <p><strong>Email:</strong> {{ user.email }}</p>
+      {% if viewing_profile.profile_picture %}
+      <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+        <img src="{{ viewing_profile.profile_picture }}" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
+      </div>
+      {% elif user == viewing_user%}
+        <p>No profile picture set. <a href="{% url 'settings' %}">Add one now</a>.</p>
+      {% else %}
+        <p>No profile picture set.</p>
+      {% endif %}
+      <p><strong>Username:</strong> {{ viewing_user.username }}</p>
+      <p><strong>Student ID:</strong> {{ viewing_profile.std_id }}</p>
+      <p><strong>Email:</strong> {{ viewing_user.email }}</p>
     </div>
 
     <h3>Uploaded Files</h3>
-    <p>You have uploaded {{ file_count }} {{ file_count|pluralize:"file,files" }}.</p> <!-- Display file count -->
+    <p>You have uploaded {{ file_count }} {{ file_count|pluralize:"file,files" }}.</p>
     <ul class="list-group">
       {% for file in uploaded_files %}
       <li class="list-group-item">

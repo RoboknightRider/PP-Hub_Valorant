@@ -138,14 +138,20 @@ def delete_file(request, pk):
     file.delete()
     messages.success(request, "File deleted successfully.")
     return redirect("files")
-def profile_view(request):
-    if not request.user.is_authenticated:
-        return render(request, 'home.html')
-    
-    profile = StudentProfile.objects.get(user=request.user)
-    uploaded_files = UploadedFile.objects.filter(user=request.user).order_by('-uploaded_at')  # Fetch files uploaded by the logged-in user
+def profile_view(request, pk):
+    # Fetch the user and profile based on the provided pk
+    user = get_object_or_404(User, pk=pk)
+    profile = get_object_or_404(StudentProfile, user=user)
+    uploaded_files = UploadedFile.objects.filter(user=user).order_by('-uploaded_at')  # Fetch files uploaded by the user
     file_count = uploaded_files.count()
-    return render(request, 'profile.html', {"profile": profile, "uploaded_files": uploaded_files, "file_count": file_count})
+
+    # Render the profile page with the fetched data
+    return render(request, 'profile.html', {
+        "viewing_profile": profile,
+        "viewing_user": user,
+        "uploaded_files": uploaded_files,
+        "file_count": file_count
+    })
 @login_required
 def settings_view(request):
     if request.method == "POST":
@@ -153,6 +159,7 @@ def settings_view(request):
         username = request.POST.get("username")
         email = request.POST.get("email")
         std_id = request.POST.get("std_id")
+        profile_picture = request.POST.get("profile_picture")
 
         # Update the user model
         user = request.user
@@ -163,6 +170,7 @@ def settings_view(request):
         # Update the student profile model
         profile = StudentProfile.objects.get(user=user)
         profile.std_id = std_id
+        profile.profile_picture = profile_picture  # Update the profile picture URL
         profile.save()
 
         messages.success(request, "Your information has been updated successfully!")

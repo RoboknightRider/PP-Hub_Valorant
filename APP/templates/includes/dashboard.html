@@ -1,18 +1,29 @@
 <div class="dashboard">
     <ul class="nav flex-column">
-        <h3 class="mt-3">{{ user.username }}</h3>
-        <li class="nav-item mb-2">
-            <a href="{% url 'profile' %}" class="nav-link text-white">Profile</a>
-        </li>
-        <li class="nav-item mb-2">
-            <a href="#" class="nav-link text-white">Status</a>
-        </li>
-        <li class="nav-item mb-2">
-            <a href="#" class="nav-link text-white">Download History</a>
-        </li>
-        <li class="nav-item">
-            <a href="{% url 'settings' %}" class="nav-link text-white">Settings</a>
-        </li>
+        {% if user.is_authenticated %}
+            {% with user.studentprofile as profile %}
+                {% if profile.profile_picture %}
+                    <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+                        <img src="{{ profile.profile_picture }}" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
+                    </div>
+                {% endif %}
+                <h3 class="mt-3">{{ user.username }}</h3>
+                <li class="nav-item mb-2">
+                    <a href="{% url 'profile' user.id %}" class="nav-link text-white">Profile</a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="#" class="nav-link text-white">Status</a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="#" class="nav-link text-white">Download History</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'settings' %}" class="nav-link text-white">Settings</a>
+                </li>
+            {% endwith %}
+        {% else %}
+            <p class="text-white">Please log in to access the dashboard.</p>
+        {% endif %}
     </ul>
 </div>
 
