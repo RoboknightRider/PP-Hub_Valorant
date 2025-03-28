@@ -8,24 +8,26 @@
   {% else %}
     <div class="container-custom">
   {% endif %}
-  {% include 'includes/messages.html' %}
+  
     {% if query %}
       <h2>Search Results for "{{ query }}"</h2>
     {% else %}
       <h2>Files</h2>
     {% endif %}
-    {% if files %}
-      <ul class="list-group">
-        {% for file in files %}
-          <li class="list-group-item">
-            <strong><a href="{% url 'uploaded_file_detail' file.pk %}">{{ file.name }}</a></strong> <br>
-            Uploader: {{ file.user.username }} <br>
-            {{ file.uploaded_at|date:"F j, Y, g:i a" }}
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p>No files found matching your search.</p>
-    {% endif %}
+    
+      {% include 'includes/messages.html' %}
+      {% if files %}
+        <ul class="list-group">
+          {% for file in files %}
+            <li class="list-group-item">
+              <strong><a href="{% url 'uploaded_file_detail' file.pk %}">{{ file.name }}</a></strong> <br>
+              Uploader: {{ file.user.username }} <br>
+              {{ file.uploaded_at|date:"F j, Y, g:i a" }}
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No files found matching your search.</p>
+      {% endif %}
   </div>
 </body>

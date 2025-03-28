@@ -125,14 +125,52 @@ def files(request):
     else:  # If no search query is provided, render all files
         files = UploadedFile.objects.all()
     return render(request, 'files.html', {"query": query, "files": files})
+@login_required
+def delete_file(request, pk):
+    file = get_object_or_404(UploadedFile, pk=pk)
+
+    # Ensure only the uploader can delete the file
+    if file.user != request.user:
+        messages.error(request, "You are not authorized to delete this file.")
+        return redirect("uploaded_file_detail", pk=pk)
+
+    # Delete the file
+    file.delete()
+    messages.success(request, "File deleted successfully.")
+    return redirect("files")
 def profile_view(request):
     if not request.user.is_authenticated:
         return render(request, 'home.html')
-    else:
-        profile = StudentProfile.objects.get(user=request.user)
-        uploaded_files = UploadedFile.objects.filter(user=request.user).order_by('-uploaded_at')  # Fetch files uploaded by the logged-in user
-        file_count = uploaded_files.count()
-        return render(request, 'profile.html', {"profile": profile, "uploaded_files": uploaded_files, "file_count": file_count})
+    
+    profile = StudentProfile.objects.get(user=request.user)
+    uploaded_files = UploadedFile.objects.filter(user=request.user).order_by('-uploaded_at')  # Fetch files uploaded by the logged-in user
+    file_count = uploaded_files.count()
+    return render(request, 'profile.html', {"profile": profile, "uploaded_files": uploaded_files, "file_count": file_count})
+@login_required
+def settings_view(request):
+    if request.method == "POST":
+        # Get the updated data from the form
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        std_id = request.POST.get("std_id")
+
+        # Update the user model
+        user = request.user
+        user.username = username
+        user.email = email
+        user.save()
+
+        # Update the student profile model
+        profile = StudentProfile.objects.get(user=user)
+        profile.std_id = std_id
+        profile.save()
+
+        messages.success(request, "Your information has been updated successfully!")
+        return redirect("settings")
+
+    # Render the settings page with the current user and profile data
+    profile = StudentProfile.objects.get(user=request.user)
+    return render(request, "settings.html", {"user": request.user, "profile": profile})
 @login_required
 def get_messages(request):
     messages = ChatMessage.objects.order_by('timestamp').values('user__username', 'message', 'timestamp')
