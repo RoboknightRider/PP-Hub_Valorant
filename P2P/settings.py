@@ -1,5 +1,10 @@
 from pathlib import Path
+import os
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 SECRET_KEY = 'django-insecure-vz564=^_9p+-cf*!*o&sx6(pv3qt$cvv8mur7$ijuy-m1$ah1o'
 DEBUG = True
@@ -60,7 +65,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Dhaka'
 USE_I18N = True
 USE_TZ = True
 STATIC_URL = 'static/'

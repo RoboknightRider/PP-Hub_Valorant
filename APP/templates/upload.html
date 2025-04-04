@@ -1,31 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - PPHub</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
+{% include 'includes/head.html' %}
 <body>
-    <div class="bg-image"></div>
-
-    {%include 'nav.html' %}
-
+    {%include 'includes/background.html' %}
+    {%include 'includes/nav.html' %}
+    {%include 'includes/dashboard.html' %}
+    
     <!-- Upload Form -->
-    <div class="d-flex justify-content-center align-items-center vh-100">
-        <div class="container-custom text-center">
-            <h2>Upload File</h2>
-            <form action="{% url 'upload' %}" method="POST"> {% csrf_token %}
-                <div class="mb-3">
-                    <label for="name" class="form-label">File Name</label>
-                    <input type="text" id="name" name="name" class="form-control" required>
-                </div>
+    <div class="container-custom" style="margin-left: 260px;">
+        <h2>Upload File</h2>
+        {%include 'includes/messages.html' %}
+        <form action="{% url 'upload' %}" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+            <div class="mb-3">
+                <label for="name" class="form-label">File Name</label>
+                <input type="text" id="name" name="name" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea id="description" name="description" class="form-control" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="file" class="form-label">Upload File</label>
                 <input type="file" name="file" id="file" class="form-control" required>
-                <button type="submit" class="btn btn-primary w-100">Upload</button>
-            </form>
-        </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 mt-2">Upload</button>
+        </form>
     </div>
 </body>
-</html>
