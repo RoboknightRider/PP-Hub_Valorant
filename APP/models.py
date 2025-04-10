@@ -8,9 +8,10 @@ class StudentProfile(models.Model):
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
     def __str__(self):
         return self.user.username
-    
+
 class UploadedFile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
@@ -19,6 +20,10 @@ class UploadedFile(models.Model):
     description = models.TextField()
     uploaded_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    # New fields for BitTorrent support
+    torrent_file = models.FileField(upload_to="torrents/", blank=True, null=True)  # Stores the generated torrent file
+    magnet_link = models.TextField(blank=True, null=True)  # Stores the corresponding magnet link
 
     def save(self, *args, **kwargs):
         # Check if the file exists in the filesystem before saving
@@ -33,12 +38,14 @@ class UploadedFile(models.Model):
         # Delete the file from the filesystem when the object is deleted
         if self.file and os.path.exists(self.file.path):
             os.remove(self.file.path)
+        # Also delete the torrent file from the filesystem if it exists
+        if self.torrent_file and os.path.exists(self.torrent_file.path):
+            os.remove(self.torrent_file.path)
         super().delete(*args, **kwargs)
-
 
     def __str__(self):
         return self.file.name 
-    
+
 class ChatMessage(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     message = models.TextField()

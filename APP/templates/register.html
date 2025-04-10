@@ -1,19 +1,20 @@
 {% include 'includes/head.html' %}
 <body>
-    {%include 'includes/background.html' %}
-    {%include 'includes/nav.html' %}
+    {% include 'includes/background.html' %}
+    {% include 'includes/nav.html' %}
     <!-- Register Form -->
     <div class="container-custom">
         <h2>Create an Account</h2>
-        {%include 'includes/messages.html' %}
-        <form action="{% url 'register' %}" method="POST"> {% csrf_token %}
+        {% include 'includes/messages.html' %}
+        <form action="{% url 'register' %}" method="POST">
+            {% csrf_token %}
             <div class="mb-3">
-                <label for="name" class="form-label">Username</label>
-                <input type="text" id="name" name="name" class="form-control" required>
+                <label for="username" class="form-label">Username</label>
+                <input type="text" id="username" name="username" class="form-control" required>
             </div>
             <div class="mb-3">
-                <label for="id" class="form-label">ID</label>
-                <input type="text" id="id" name="id" class="form-control" required>
+                <label for="std_id" class="form-label">Student ID</label>
+                <input type="text" id="std_id" name="std_id" class="form-control" required>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
@@ -24,8 +25,8 @@
                 <input type="password" id="password" name="password" class="form-control" required>
             </div>
             <div class="mb-3">
-                <label for="confirm-password" class="form-label">Confirm Password</label>
-                <input type="password" id="confirm-password" name="confirm-password" class="form-control" required>
+                <label for="confirm_password" class="form-label">Confirm Password</label>
+                <input type="password" id="confirm_password" name="confirm_password" class="form-control" required>
             </div>
             <button type="submit" class="btn btn-primary w-100">Register</button>
         </form>
