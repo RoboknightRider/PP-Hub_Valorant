@@ -4,76 +4,46 @@
     {% include 'includes/nav.html' %}
     {% include 'includes/dashboard.html' %}
     
-    <!-- Torrent-Style Upload Form -->
+    <!-- Upload Form -->
     <div class="container-custom" style="margin-left: 260px;">
         <h2>Upload Torrent File</h2>
         {% include 'includes/messages.html' %}
         
-        <!-- Informational Text for the User -->
+        <!-- Information Text -->
         <p class="upload-info" style="font-size: 1rem; margin-bottom: 15px;">
-          Use this form to upload files that will be shared via BitTorrent. Once your file is uploaded, 
-          a torrent and magnet link will be generated for seeding. Please ensure you have the right to share this file.
+            Use this form to upload a torrent file. Please ensure you have the right to share this file.
         </p>
         
+        <!-- Form for Uploading -->
         <form action="{% url 'upload' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
+            
+            <!-- Torrent File Name -->
             <div class="mb-3">
                 <label for="name" class="form-label">Torrent Name</label>
-                <input 
-                  type="text" 
-                  id="name" 
-                  name="name" 
-                  class="form-control" 
-                  placeholder="e.g. Lecture Notes 2025" 
-                  required>
+                <input type="text" id="name" name="name" class="form-control" required placeholder="e.g. Lecture Notes 2025">
             </div>
+            
+            <!-- File Description -->
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
-                <textarea 
-                  id="description" 
-                  name="description" 
-                  class="form-control" 
-                  rows="3" 
-                  placeholder="Provide a brief description..." 
-                  required></textarea>
+                <textarea id="description" name="description" class="form-control" rows="3" required placeholder="Provide a brief description..."></textarea>
             </div>
-            <!-- Extended Dropdown Section for File Types -->
+            
+            <!-- Torrent File Upload -->
             <div class="mb-3">
-                <label for="file_type" class="form-label">Select File Type</label>
-                <select name="file_type" id="file_type" class="form-control" required>
-                    <option value="" disabled selected>Select file type</option>
-                    <option value="pdf">PDF</option>
-                    <option value="doc">Word Document (.doc)</option>
-                    <option value="docx">Word Document (.docx)</option>
-                    <option value="xls">Excel Spreadsheet (.xls)</option>
-                    <option value="xlsx">Excel Spreadsheet (.xlsx)</option>
-                    <option value="ppt">PowerPoint Presentation (.ppt)</option>
-                    <option value="pptx">PowerPoint Presentation (.pptx)</option>
-                    <option value="txt">Text File (.txt)</option>
-                    <option value="jpeg">JPEG Image (.jpg/.jpeg)</option>
-                    <option value="png">PNG Image (.png)</option>
-                    <option value="gif">GIF Image (.gif)</option>
-                    <option value="mp3">MP3 Audio (.mp3)</option>
-                    <option value="wav">WAV Audio (.wav)</option>
-                    <option value="mp4">MP4 Video (.mp4)</option>
-                    <option value="avi">AVI Video (.avi)</option>
-                    <option value="mkv">MKV Video (.mkv)</option>
-                    <option value="mov">MOV Video (.mov)</option>
-                    <option value="zip">ZIP Archive (.zip)</option>
-                    <option value="rar">RAR Archive (.rar)</option>
-                    <option value="other">Other</option>
-                </select>
+                <label for="file" class="form-label">Select Torrent File</label>
+                <input type="file" name="file" id="file" class="form-control" accept=".torrent" required>
             </div>
+            
+            <!-- Optional Thumbnail Upload -->
             <div class="mb-3">
-                <label for="file" class="form-label">Select File to Upload</label>
-                <input 
-                  type="file" 
-                  name="file" 
-                  id="file" 
-                  class="form-control" 
-                  required>
+                <label for="thumbnail" class="form-label">Upload Thumbnail (Optional)</label>
+                <input type="file" name="thumbnail" id="thumbnail" class="form-control" accept="image/*">
             </div>
-            <button type="submit" class="btn btn-primary w-100 mt-2">Upload and Seed</button>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary w-100 mt-2">Upload Torrent</button>
         </form>
     </div>
 </body>
