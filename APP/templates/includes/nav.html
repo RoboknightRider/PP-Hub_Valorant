@@ -1,7 +1,9 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
-
+{% load static %}
 <nav class="nav-custom">
-    <a href="{% url 'home' %}" class="logo">PP-Hub</a>
+    <a href="{% url 'home' %}" class="logo">
+        <img src="{% static 'images/pp_logo.jpeg' %}" alt="PP-Hub Logo" class="logo-image">
+    </a>
     <div class="nav-right">
         <ul class="nav-links d-flex align-items-center">
             <li><a href="{% url 'home' %}">Home</a></li>
@@ -35,19 +37,15 @@
         width: 100%; /* Ensure it spans the full width */
         position: fixed; /* Ensure it stays in place */
         box-sizing: border-box; /* Include padding in width calculation */
+        z-index: 900;
     }
 
-    .nav-custom .logo {
-        font-size: 30px;
-        font-weight: bold;
-        color: white;
-        text-decoration: none;
-        font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-        white-space: nowrap; /* Prevents wrapping */
-        margin-left: 0; /* Aligns logo to the left */
-        flex-shrink: 0; /* Prevents it from shrinking */
+    .nav-custom .logo-image {
+        width: 50px; /* Set the size of the logo */
+        height: 40px; /* Set the size of the logo */
+        border-radius: 5px; /* Make the image circular */
+        object-fit: cover; /* Ensure the image fits within the circle */
     }
-
     .nav-links {
         list-style: none;
         display: flex;
@@ -69,7 +67,7 @@
     }
 
     .nav-links a:hover {
-        text-decoration: underline;
+        color: black;
     }
 
     .search-box {

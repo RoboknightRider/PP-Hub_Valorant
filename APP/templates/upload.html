@@ -2,26 +2,29 @@
 <body>
     {%include 'includes/background.html' %}
     {%include 'includes/nav.html' %}
-    {%include 'includes/dashboard.html' %}
+    
     
     <!-- Upload Form -->
-    <div class="container-custom" style="margin-left: 260px;">
-        <h2>Upload File</h2>
-        {%include 'includes/messages.html' %}
-        <form action="{% url 'upload' %}" method="POST" enctype="multipart/form-data"> {% csrf_token %}
-            <div class="mb-3">
-                <label for="name" class="form-label">File Name</label>
-                <input type="text" id="name" name="name" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea id="description" name="description" class="form-control" rows="3" required></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="file" class="form-label">Upload File</label>
-                <input type="file" name="file" id="file" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-primary w-100 mt-2">Upload</button>
-        </form>
+    <div class="main-container">
+        {%include 'includes/dashboard.html' %}
+        <div class="container-custom">
+            <h2>Upload File</h2>
+            {%include 'includes/messages.html' %}
+            <form action="{% url 'upload' %}" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+                <div class="mb-3">
+                    <label for="name" class="form-label">File Name</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea id="description" name="description" class="form-control" rows="3" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="file" class="form-label">Upload File</label>
+                    <input type="file" name="file" id="file" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 mt-2">Upload</button>
+            </form>
+        </div>
     </div>
 </body>

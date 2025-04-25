@@ -43,7 +43,6 @@ def register(request):
             return redirect("register")
 
         # Check if user already exists (by ID or email)
-
         if StudentProfile.objects.filter(std_id=std_id).exists():
             messages.error(request, "User with this ID already exists")
             return redirect("register")
@@ -61,7 +60,6 @@ def register(request):
 
         messages.success(request, "Registration successful! You can now log in.")
         return redirect("login")
-    
     return render(request, "register.html", {"csrf_token": get_token(request)})
 def login_view(request):
     if request.method == "POST":

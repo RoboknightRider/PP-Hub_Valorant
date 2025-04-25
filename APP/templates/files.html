@@ -2,32 +2,33 @@
 <body>
   {% include 'includes/background.html' %}
   {% include 'includes/nav.html' %}
-  {% if user.is_authenticated %}
-    {% include 'includes/dashboard.html' %}
-    <div class="container-custom" style="margin-left: 260px;">
-  {% else %}
-    <div class="container-custom">
-  {% endif %}
-  
-    {% if query %}
-      <h2>Search Results for "{{ query }}"</h2>
-    {% else %}
-      <h2>Files</h2>
+ 
+  <div class="main-container">
+    {% if user.is_authenticated %}
+      {% include 'includes/dashboard.html' %}
     {% endif %}
-    
+    <div class="container-custom">
       {% include 'includes/messages.html' %}
-      {% if files %}
-        <ul class="list-group">
-          {% for file in files %}
-            <li class="list-group-item">
-              <strong><a href="{% url 'uploaded_file_detail' file.pk %}">{{ file.name }}</a></strong> <br>
-              Uploader: {{ file.user.username }} <br>
-              {{ file.uploaded_at|date:"F j, Y, g:i a" }}
-            </li>
-          {% endfor %}
-        </ul>
+      {% if query %}
+        <h2>Search Results for "{{ query }}"</h2>
       {% else %}
-        <p>No files found matching your search.</p>
+        <h2>Files</h2>
       {% endif %}
+      
+        {% include 'includes/messages.html' %}
+        {% if files %}
+          <ul class="list-group">
+            {% for file in files %}
+              <li class="list-group-item">
+                <strong><a href="{% url 'uploaded_file_detail' file.pk %}">{{ file.name }}</a></strong> <br>
+                Uploader: {{ file.user.username }} <br>
+                {{ file.uploaded_at|date:"F j, Y, g:i a" }}
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No files found matching your search.</p>
+        {% endif %}
+    </div>
   </div>
 </body>

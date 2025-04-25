@@ -2,33 +2,47 @@
 
 * {
     margin: 0;
-    padding: 0;
-    box-sizing: border-box;
     font-family: "Poppins", sans-serif;
 }
 
 body {
     position: relative;
     height: 100vh;
-    margin: 0;
-    overflow: hidden;
+    overflow: relative; /* Allow for scrolling if needed */
     display: flex; /* Use flexbox to manage layout */
-    justify-content: center; /* Center the container horizontally */
-    align-items: flex-start; /* Align the container at the top */
+}
+
+.main-container {
+    position: relative;
+    display: flex; /* Use flexbox to manage layout */
+    width: 100%-70px; /* Full width of the viewport */
+    top: 70px;
+    min-height: calc(100vh - 70px); /* Full height minus the navbar height */
+    overflow: auto; /* Allow scrolling if content overflows */
+}
+
+.sub-container {
+    position: relative;
+    display: flex; /* Use flexbox to manage layout */
+    width: 100%; /* Full width of the viewport */
+    min-height: calc(100vh - 70px); /* Full height minus the navbar height */
+    padding: 20px; /* Add padding for spacing */
+    overflow: auto; /* Allow scrolling if content overflows */
+    justify-content: center; /* Center horizontally */
 }
 
 .container-custom {
-    min-width: 40vh;
+    position: relative;
     background: white;
     padding: 40px;
+    flex: 1;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    margin-top: 80px; 
-    margin-right: 5px; /* Add a 5px margin on the right */
-    margin-left: 5px; /* Add a 5px margin on the left */
-    align-items: center;
-    justify-content: center;
-    min-width: 25%;
+    min-width: 25%; /* Minimum width for the container */
+    max-width: 40%; /* Prevent it from exceeding 90% of the viewport width */
+    max-height: 90%; /* Prevent it from exceeding 90% of the viewport height */
+    overflow: auto; /* Add scrollbars if content overflows */
+    text-align: center; /* Center-align text inside the container */
 }
 
 .container-custom h2 {

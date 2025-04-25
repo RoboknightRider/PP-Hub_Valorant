@@ -28,18 +28,14 @@
 </div>
 
 <style>
-    .dashboard {
+    .dashboard { /* Minimum width for the dashboard */
         position: fixed; /* Fix the dashboard to the left side of the screen */
-        top: 80px; /* Position it below the navbar (adjust based on navbar height) */
-        left: 0; /* Align it to the left side of the screen */
-        width: 250px; /* Fixed width for the dashboard */
-        height: calc(100vh - 80px); /* Full height minus the navbar height */
-        border-radius: 10px;
         background-color: black;
         color: white; /* White text */
-        padding: 15px;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow */
+        padding: 20px; /* Optional: Add a shadow */
+        height: 100%; /* Full height minus navbar height */
+        top: 70px; /* Position below the navbar */
         overflow-y: auto; /* Add scrolling if content overflows */
-        z-index: 900; /* Ensure it stays above other elements but below the navbar */
+         /* Ensure it stays above other elements but below the navbar */
     }
 </style>
