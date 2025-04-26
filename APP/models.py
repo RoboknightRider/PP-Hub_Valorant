@@ -16,6 +16,7 @@ class UploadedFile(models.Model):
     name = models.CharField(max_length=100)
     type = models.CharField(max_length=100, null=True)
     file = models.FileField(upload_to="uploads/")  # Files will be saved in MEDIA_ROOT/uploads/
+    #thumbnail = models.ImageField(upload_to="thumbnails/", null=True, blank=True)
     description = models.TextField()
     uploaded_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

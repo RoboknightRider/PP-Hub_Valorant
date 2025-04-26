@@ -166,13 +166,20 @@ def delete_file(request, pk):
     return redirect("files")
 
 # Profile view
+# views.py
 def profile_view(request):
     if not request.user.is_authenticated:
-        return render(request, 'home.html')
-    
+        return redirect('home')
+
     profile = StudentProfile.objects.get(user=request.user)
     uploaded_files = UploadedFile.objects.filter(user=request.user).order_by('-uploaded_at')  # Fetch files uploaded by the logged-in user
     file_count = uploaded_files.count()
+
+    if request.method == "POST" and request.FILES.get("profile_picture"):
+        profile.profile_picture = request.FILES.get("profile_picture")
+        profile.save()
+        messages.success(request, "Profile picture updated successfully!")
+
     return render(request, 'profile.html', {"profile": profile, "uploaded_files": uploaded_files, "file_count": file_count})
 
 # Settings view
