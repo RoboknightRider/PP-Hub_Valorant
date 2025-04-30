@@ -3,7 +3,7 @@
     {% include 'includes/background.html' %}
     {% include 'includes/nav.html' %}
     {% include 'includes/dashboard.html' %}
-    
+    {% include 'includes/chatbox.html' %}
     <!-- Upload Form -->
     <div class="container-custom" style="margin-left: 260px;">
         <h2>Upload Torrent File</h2>
@@ -39,7 +39,7 @@
             <!-- Optional Thumbnail Upload -->
             <div class="mb-3">
                 <label for="thumbnail" class="form-label">Upload Thumbnail (Optional)</label>
-                <input type="file" name="thumbnail" id="thumbnail" class="form-control" accept="image/*">
+                <input type="text" name="thumbnail" id="thumbnail" class="form-control" placeholder="Thumbnail URL">
             </div>
 
             <!-- Submit Button -->

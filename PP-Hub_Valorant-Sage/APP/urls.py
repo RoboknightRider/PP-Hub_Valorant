@@ -2,7 +2,7 @@ from django.urls import path, include
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
-
+from .utils import get_messages, save_message
 urlpatterns = [
     path('', views.home, name='home'),
     path('register/', views.register, name='register'),
@@ -14,8 +14,7 @@ urlpatterns = [
     path('files/', views.files, name='files'),  # Ensure trailing slash here
     path('delete_file/<int:pk>/', views.delete_file, name='delete_file'),
     path('profile/<int:id>/', views.profile_view, name='profile'),  # Updated to accept an 'id' argument
-    path('user/<str:username>/uploads/', views.user_uploads, name='user_uploads'),
     path("settings/", views.settings_view, name="settings"),
-    path('api/get_messages/', views.get_messages, name='get_messages'),
-    path('api/save_message/', views.save_message, name='save_message'),
+    path('api/get_messages/', get_messages, name='get_messages'),
+    path('api/save_message/', save_message, name='save_message'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # Serving media files during development

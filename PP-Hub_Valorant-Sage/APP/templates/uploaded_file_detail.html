@@ -2,17 +2,25 @@
 <body>
   {% include 'includes/background.html' %}
   {% include 'includes/nav.html' %}
-  
-  <div class="container-custom" style="margin-left: 260px;">
+  {% if user.is_authenticated %}
+    {% include 'includes/dashboard.html' %}
+    <div class="container-custom" style="margin-left: 260px; overflow-y: auto;"> <!-- Added overflow-y: auto -->
+  {% else %}
+    <div class="container-custom" style="overflow-y: auto;"> <!-- Added overflow-y: auto -->
+  {% endif %}
     <h2>File Details</h2>
     <div class="card mt-4">
       <div class="card-body">
+        
         <h5 class="card-title">{{ file.name }}</h5>
+        {% if file.thumbnail %}
+          <img src="{{ file.thumbnail }}" alt="Thumbnail for {{ file.name }}" class="img-thumbnail mt-3" style="max-width: 200px;">
+        {% endif %}
         <p class="card-text"><strong>Description:</strong> {{ file.description }}</p>
         <p class="card-text"><strong>Type:</strong> {{ file.type }}</p>
         
         <!-- Make the uploader's name clickable -->
-        <p class="card-text"><strong>Uploader:</strong> <a href="{% url 'user_uploads' file.user.username %}">{{ file.user.username }}</a></p>
+        <p class="card-text"><strong>Uploader:</strong> <a style="text-decoration: none;" href="{% url 'profile' file.user.id %}">{{ file.user.username }}</a></p>
         
         <p class="card-text"><strong>Uploaded At:</strong> {{ file.uploaded_at|date:"F j, Y, g:i a" }}</p>
 

@@ -4,8 +4,13 @@
   {% include 'includes/nav.html' %}
   {% include 'includes/messages.html' %}
   {% include 'includes/dashboard.html' %}
-
-  <div class="container-custom" style="margin-left: 260px;">
+  
+  {% if user.is_authenticated %}
+    {% include 'includes/dashboard.html' %}
+    <div class="container-custom" style="margin-left: 260px; overflow-y: auto;"> <!-- Added overflow-y: auto -->
+  {% else %}
+    <div class="container-custom" style="overflow-y: auto;"> <!-- Added overflow-y: auto -->
+  {% endif %}
     <h2>Profile</h2>
     <div class="profile-info">
       {% if viewing_profile.profile_picture %}
@@ -17,13 +22,13 @@
       {% else %}
         <p>No profile picture set.</p>
       {% endif %}
-      <p><strong>Username:</strong> {{ user.username }}</p>
-      <p><strong>Student ID:</strong> {{ profile.std_id }}</p>
-      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Username:</strong> {{ viewing_user.username }}</p>
+      <p><strong>Student ID:</strong> {{ viewing_profile.std_id }}</p>
+      <p><strong>Email:</strong> {{ viewing_user.email }}</p>
     </div>
 
     <h3>Uploaded Files</h3>
-    <p>You have uploaded {{ file_count }} {{ file_count|pluralize:"file,files" }}.</p> <!-- Display file count -->
+    <p>You have uploaded {{ file_count }} {{ file_count|pluralize:"file,files" }}.</p>
     <ul class="list-group">
       {% for file in uploaded_files %}
       <li class="list-group-item">

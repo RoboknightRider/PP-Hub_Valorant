@@ -1,20 +1,110 @@
 <!-- Chatbox Section -->
-<div id="chat-container" style="position: fixed; top: 80px; right: 0; width: 30%; height: calc(100% - 80px); border-left: 1px solid #ccc; padding: 10px; background-color: #000; color: white; box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1); overflow-y: auto; border-radius: 10px; display: none;">
-    <div id="chat-header" style="display: flex; justify-content: space-between; align-items: center;">
-        <h3 style="margin: 0; padding-bottom: 10px; border-bottom: 1px solid #444; font-size: 16px;">Chat</h3>
-        <button onclick="toggleChat()" style="border: none; background: transparent; color: red; font-size: 36px; cursor: pointer;">&times;</button>
+<div id="chat-container" class="chat-container">
+    <div id="chat-header" class="chat-header">
+        <h3>Chat</h3>
+        <button onclick="toggleChat()" class="close-chat-btn">&times;</button>
     </div>
-    <div id="messages" style="height: calc(100% - 100px); overflow-y: auto; border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; background-color: #222; color: white; border-radius: 10px;"></div>
-    <div id="message-input" style="display: flex;">
-        <input type="text" id="message" placeholder="Type your message here..." 
-                style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 10px; background-color: #333; color: white;"
-                onkeydown="handleKeyPress(event)">
-        <button onclick="sendMessage()" style="padding: 10px; margin-left: 5px; border: none; background-color: #007bff; color: white; border-radius: 10px; cursor: pointer;">Send</button>
+    <div id="messages" class="messages"></div>
+    <div id="message-input" class="message-input">
+        <input type="text" id="message" placeholder="Type your message here..." onkeydown="handleKeyPress(event)">
+        <button onclick="sendMessage()" class="send-btn">Send</button>
     </div>
 </div>
 
+<style>
+    /* Chatbox Container */
+.chat-container {
+    position: fixed;
+    top: 75px;
+    right: 0;
+    width: 30%;
+    height: calc(100% - 75px);
+    padding: 10px;
+    background-color: #000;
+    color: white;
+    border-radius: 10px;
+    display: none;
+}
+
+/* Chat Header */
+.chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-header h3 {
+    margin: 0;
+    padding-bottom: 10px;
+    font-size: 16px;
+}
+
+.close-chat-btn {
+    border: none;
+    background: transparent;
+    color: white;
+    font-size: 36px;
+    cursor: pointer;
+}
+
+/* Messages Section */
+.messages {
+    height: calc(100% - 110px);
+    overflow-y: auto;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #222;
+    color: white;
+    border-radius: 10px;
+}
+
+.message {
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #444;
+    color: white;
+}
+
+/* Message Input Section */
+.message-input {
+    display: flex;
+}
+
+.message-input input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #333;
+    color: white;
+}
+
+.send-btn {
+    padding: 10px;
+    margin-left: 5px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* Chat Icon */
+.chat-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #007bff;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    border: none;
+}
+</style>
+
 <!-- Chat Icon (Rounded Square Button) -->
-<button onclick="toggleChat()" id="chat-icon" style="position: fixed; bottom: 20px; right: 20px; background-color: #007bff; color: white; padding: 15px; border-radius: 10px; cursor: pointer; font-size: 20px; border: none;">
+<button onclick="toggleChat()" id="chat-icon" class="chat-icon">
     Chat
 </button>
 
@@ -37,11 +127,7 @@ async function fetchMessages() {
             messageElement.innerHTML = `
                 <small>${new Date(msg.timestamp).toLocaleString()}</small>  <br>
                 <strong>${msg.user__username}:</strong> ${msg.message} <br>`;
-            messageElement.style.marginBottom = '5px';
-            messageElement.style.padding = '5px';
-            messageElement.style.borderRadius = '5px';
-            messageElement.style.backgroundColor = '#444';
-            messageElement.style.color = 'white';
+            messageElement.classList.add('message');
             messagesDiv.appendChild(messageElement);
         });
         messagesDiv.scrollTop = messagesDiv.scrollHeight;

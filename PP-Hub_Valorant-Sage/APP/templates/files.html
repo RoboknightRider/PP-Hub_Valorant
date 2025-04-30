@@ -6,7 +6,9 @@
   {% include 'includes/nav.html' %}
 
   {% if user.is_authenticated %}
+    {% include 'includes/chatbox.html' %}
     {% include 'includes/dashboard.html' %}
+    {% include 'includes/messages.html' %}
     <div class="container-custom" style="margin-left: 260px; overflow-y: auto;"> <!-- Added overflow-y: auto -->
   {% else %}
     <div class="container-custom" style="overflow-y: auto;"> <!-- Added overflow-y: auto -->
@@ -24,18 +26,18 @@
       <div class="row">
         {% for file in files %}
           <div class="col-md-4 mb-4">
-            <div class="card">
+            <div class="card file-card"> <!-- Added file-card class -->
               {% if file.thumbnail %}
-                <img src="{{ file.thumbnail.url }}" class="card-img-top" style="width: 100%; height: 150px; object-fit: cover;" alt="Thumbnail"> <!-- Updated styles -->
+                <img src="{{ file.thumbnail }}" class="card-img-top" alt="Thumbnail">
               {% else %}
-                <!-- Use static tag for the default thumbnail image -->
-                <img src="{% static 'images/pp thumb.webp' %}" class="card-img-top" style="width: 100%; height: 150px; object-fit: cover;" alt="Default Thumbnail"> <!-- Updated styles -->
+                <img src="{% static 'images/pp thumb.webp' %}" class="card-img-top" alt="Default Thumbnail">
               {% endif %}
-              <div class="card-body" style="padding: 10px; font-size: 0.9rem;"> <!-- Reduced padding and font size -->
+              <div class="card-body">
                 <h5 class="card-title">{{ file.name }}</h5>
-                <p class="card-text">{{ file.description|slice:":100" }}...</p>
-                <a href="{% url 'uploaded_file_detail' file.pk %}" class="btn btn-primary btn-sm">View Details</a> <!-- Smaller button -->
-              </div>
+                <p class="card-text">{{ file.description|slice:":60" }}...</p>
+                <p class="card-text"><strong>Seeders:</strong> {{ file.seeders }} | <strong>Leechers:</strong> {{ file.leechers }}</p>
+                <a href="{% url 'uploaded_file_detail' file.pk %}" class="btn btn-primary btn-sm">View Details</a>
+            </div>
             </div>
           </div>
         {% endfor %}
@@ -45,3 +47,40 @@
     {% endif %}
   </div>
 </body>
+
+<style>
+  /* Ensure all file tiles are the same size */
+.file-card {
+    height: 350px; /* Set a fixed height for the card */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.file-card .card-img-top {
+    height: 150px; /* Fixed height for the thumbnail */
+}
+
+.file-card .card-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+    font-size: 0.9rem;
+}
+
+.file-card .card-title {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.file-card .card-text {
+    flex-grow: 1;
+    margin-bottom: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+</style>
