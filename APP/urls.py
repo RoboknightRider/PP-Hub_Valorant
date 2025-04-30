@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -10,10 +10,11 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('upload/', views.upload, name='upload'),
     path('file/<int:pk>/', views.uploaded_file_detail, name='uploaded_file_detail'),
-    path('files', views.files, name='files'),
+    path('download-history/', views.download_history, name='download_history'),
+    path('files/', views.files, name='files'),  # Ensure trailing slash here
     path('delete_file/<int:pk>/', views.delete_file, name='delete_file'),
     path('profile/', views.profile_view, name='profile'),
     path("settings/", views.settings_view, name="settings"),
     path('api/get_messages/', views.get_messages, name='get_messages'),
     path('api/save_message/', views.save_message, name='save_message'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # Serving media files during development

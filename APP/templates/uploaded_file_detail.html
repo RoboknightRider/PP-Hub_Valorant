@@ -9,34 +9,19 @@
     <h2>File Details</h2>
     <div class="card mt-4">
       <div class="card-body">
-        <!-- Display Thumbnail if Available -->
-        {% if file.thumbnail %}
-          <div class="mb-3">
-            <img src="{{ file.thumbnail.url }}" alt="Thumbnail" class="img-fluid" style="max-width: 200px;">
-          </div>
-        {% endif %}
-        
-        <!-- File Name -->
         <h5 class="card-title"><strong>{{ file.name }}</strong></h5>
         
-        <!-- Description -->
         <p class="card-text"><strong>Description:</strong> {{ file.description }}</p>
-        
-        <!-- File Type -->
         <p class="card-text"><strong>Type:</strong> {{ file.type }}</p>
-        
-        <!-- Uploader -->
         <p class="card-text"><strong>Uploader:</strong> {{ file.user.username }}</p>
-        
-        <!-- Date of Upload -->
         <p class="card-text"><strong>Uploaded At:</strong> {{ file.uploaded_at|date:"F j, Y, g:i a" }}</p>
 
-        <!-- Download Torrent File Button -->
-        <a href="{{ file.file.url }}" class="btn btn-success mt-3" download="{{ file.name }}">Download Torrent File</a>
+        <!-- Download Button -->
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" name="download" class="btn btn-success">Download</button>
+        </form>
 
-        <!-- Seed Count (Placeholder) -->
-        <p class="card-text mt-3"><strong>Seed Count:</strong> {{ file.seed_count|default:"0" }}</p>
-        
         <!-- File Deletion (Only for File Owner) -->
         {% if user == file.user %}
           <form method="POST" action="{% url 'delete_file' file.pk %}" class="mt-3">

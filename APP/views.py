@@ -1,12 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.middleware.csrf import get_token
-from .models import StudentProfile, UploadedFile, ChatMessage
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404
+from .models import StudentProfile, UploadedFile, ChatMessage, DownloadHistory
 import os, json
 from django.http import JsonResponse
 
@@ -87,11 +86,8 @@ def logout_view(request):
     return render(request, 'logout.html')
 
 # Upload view
+@login_required
 def upload(request):
-    if not request.user.is_authenticated:
-        messages.error(request, "You need to log in to upload file.")
-        return redirect("login")
-    
     if request.method == "POST":
         name = request.POST.get("name")
         description = request.POST.get("description")
@@ -132,13 +128,31 @@ def upload(request):
     
     return render(request, 'upload.html', {"csrf_token": get_token(request)})
 
-# File detail view
+# File detail view with download tracking
+@login_required
 def uploaded_file_detail(request, pk):
-    if not request.user.is_authenticated:
-        messages.error(request, "You need to log in to view file details.")
-        return redirect("login")
+    file = get_object_or_404(UploadedFile, pk=pk)
 
-    file = get_object_or_404(UploadedFile, pk=pk)  # Fetch the file by its primary key
+    # Check if the file exists before trying to download it
+    if not file.file:
+        messages.error(request, "This file is no longer available.")
+        return redirect('files')  # Redirect to files list or wherever you want
+
+    if request.method == "POST":
+        # Check if the download button was clicked
+        if "download" in request.POST:
+            # Record the download in DownloadHistory
+            DownloadHistory.objects.create(user=request.user, file=file)
+
+            # Increase the seed count
+            file.seed_count += 1
+            file.save()
+
+            # Proceed with the actual file download
+            response = redirect(file.file.url)
+            response['Content-Disposition'] = f'attachment; filename={file.name}'
+            return response
+
     return render(request, 'uploaded_file_detail.html', {"file": file})
 
 # Files listing view
@@ -166,11 +180,8 @@ def delete_file(request, pk):
     return redirect("files")
 
 # Profile view
-# views.py
+@login_required
 def profile_view(request):
-    if not request.user.is_authenticated:
-        return redirect('home')
-
     profile = StudentProfile.objects.get(user=request.user)
     uploaded_files = UploadedFile.objects.filter(user=request.user).order_by('-uploaded_at')  # Fetch files uploaded by the logged-in user
     file_count = uploaded_files.count()
@@ -209,6 +220,13 @@ def settings_view(request):
     profile = StudentProfile.objects.get(user=request.user)
     return render(request, "settings.html", {"user": request.user, "profile": profile})
 
+# Download History View
+@login_required
+def download_history(request):
+    # Fetch download history for the logged-in user, ordered by the download date
+    history = DownloadHistory.objects.filter(user=request.user).order_by('-downloaded_at')
+
+    return render(request, 'download_history.html', {'history': history})
 # Get chat messages
 @login_required
 def get_messages(request):
