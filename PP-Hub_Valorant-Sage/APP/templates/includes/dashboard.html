@@ -1,0 +1,45 @@
+<div class="dashboard">
+    <ul class="nav flex-column">
+        {% if user.is_authenticated %}
+            {% with user.studentprofile as profile %}
+                {% if profile.profile_picture %}
+                    <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+                        <img src="{{ profile.profile_picture }}" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;">
+                    </div>
+                {% endif %}
+                <h3 class="mt-3">{{ user.username }}</h3>
+                <li class="nav-item mb-2">
+                    <a href="{% url 'profile' user.id %}" class="nav-link text-white">Profile</a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="#" class="nav-link text-white">Status</a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="{% url 'download_history' %}" class="nav-link text-white">Download History</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'settings' %}" class="nav-link text-white">Settings</a>
+                </li>
+            {% endwith %}
+        {% else %}
+            <p class="text-white">Please log in to access the dashboard.</p>
+        {% endif %}
+    </ul>
+</div>
+
+<style>
+    .dashboard {
+        position: fixed; /* Fix the dashboard to the left side of the screen */
+        top: 80px; /* Position it below the navbar (adjust based on navbar height) */
+        left: 0; /* Align it to the left side of the screen */
+        width: 250px; /* Fixed width for the dashboard */
+        height: calc(100vh - 80px); /* Full height minus the navbar height */
+        border-radius: 10px;
+        background-color: black;
+        color: white; /* White text */
+        padding: 15px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow */
+        overflow-y: auto; /* Add scrolling if content overflows */
+        z-index: 900; /* Ensure it stays above other elements but below the navbar */
+    }
+</style>

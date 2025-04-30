@@ -1,0 +1,30 @@
+{% include 'includes/head.html' %}
+<body>
+  {% include 'includes/background.html' %}
+  {% include 'includes/nav.html' %}
+  {% include 'includes/dashboard.html' %}
+  <div class="container-custom" style="margin-left: 260px;">
+    {% include 'includes/messages.html' %}
+    <h2>Settings</h2>
+    <form method="POST" action="{% url 'settings' %}">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" id="username" name="username" class="form-control" value="{{ user.username }}" required>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" id="email" name="email" class="form-control" value="{{ user.email }}" required>
+      </div>
+      <div class="mb-3">
+        <label for="std_id" class="form-label">Student ID</label>
+        <input type="text" id="std_id" name="std_id" class="form-control" value="{{ profile.std_id }}" required>
+      </div>
+      <div class="mb-3">
+        <label for="profile_picture" class="form-label">Profile Picture URL</label>
+        <input type="url" id="profile_picture" name="profile_picture" class="form-control" value="{{ profile.profile_picture }}" placeholder="Enter image URL">
+      </div>
+      <button type="submit" class="btn btn-primary w-100 mt-2">Update Information</button>
+    </form>
+  </div>
+</body>

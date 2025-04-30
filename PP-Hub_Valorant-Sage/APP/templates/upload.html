@@ -1,0 +1,49 @@
+{% include 'includes/head.html' %}
+<body>
+    {% include 'includes/background.html' %}
+    {% include 'includes/nav.html' %}
+    {% include 'includes/dashboard.html' %}
+    
+    <!-- Upload Form -->
+    <div class="container-custom" style="margin-left: 260px;">
+        <h2>Upload Torrent File</h2>
+        {% include 'includes/messages.html' %}
+        
+        <!-- Information Text -->
+        <p class="upload-info" style="font-size: 1rem; margin-bottom: 15px;">
+            Use this form to upload a torrent file. Please ensure you have the right to share this file.
+        </p>
+        
+        <!-- Form for Uploading -->
+        <form action="{% url 'upload' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- Torrent File Name -->
+            <div class="mb-3">
+                <label for="name" class="form-label">Torrent Name</label>
+                <input type="text" id="name" name="name" class="form-control" required placeholder="e.g. Lecture Notes 2025">
+            </div>
+            
+            <!-- File Description -->
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea id="description" name="description" class="form-control" rows="3" required placeholder="Provide a brief description..."></textarea>
+            </div>
+            
+            <!-- Torrent File Upload -->
+            <div class="mb-3">
+                <label for="file" class="form-label">Select Torrent File</label>
+                <input type="file" name="file" id="file" class="form-control" accept=".torrent" required>
+            </div>
+            
+            <!-- Optional Thumbnail Upload -->
+            <div class="mb-3">
+                <label for="thumbnail" class="form-label">Upload Thumbnail (Optional)</label>
+                <input type="file" name="thumbnail" id="thumbnail" class="form-control" accept="image/*">
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary w-100 mt-2">Upload Torrent</button>
+        </form>
+    </div>
+</body>

@@ -1,0 +1,34 @@
+{% include 'includes/head.html' %}
+<body>
+  {% include 'includes/background.html' %}
+  {% include 'includes/nav.html' %}
+  {% include 'includes/dashboard.html' %}
+  {% include 'includes/messages.html' %}
+  
+  <div class="container-custom" style="margin-left: 260px;">
+    <h2>Your Download History</h2>
+    {% if history %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th>File Name</th>
+            <th>Download Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for entry in history %}
+            <tr>
+              <td>
+                <!-- Link the file to its detail page -->
+                <a href="{% url 'uploaded_file_detail' entry.file.pk %}">{{ entry.file.name }}</a>
+              </td>
+              <td>{{ entry.downloaded_at|date:"F j, Y, g:i a" }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No download history found.</p>
+    {% endif %}
+  </div>
+</body>

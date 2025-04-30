@@ -1,0 +1,35 @@
+{% include 'includes/head.html' %}
+<body>
+  {% include 'includes/background.html' %}
+  {% include 'includes/nav.html' %}
+  
+  <div class="container-custom" style="margin-left: 260px;">
+    <h2>File Details</h2>
+    <div class="card mt-4">
+      <div class="card-body">
+        <h5 class="card-title">{{ file.name }}</h5>
+        <p class="card-text"><strong>Description:</strong> {{ file.description }}</p>
+        <p class="card-text"><strong>Type:</strong> {{ file.type }}</p>
+        
+        <!-- Make the uploader's name clickable -->
+        <p class="card-text"><strong>Uploader:</strong> <a href="{% url 'user_uploads' file.user.username %}">{{ file.user.username }}</a></p>
+        
+        <p class="card-text"><strong>Uploaded At:</strong> {{ file.uploaded_at|date:"F j, Y, g:i a" }}</p>
+
+        <!-- Download Button -->
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" name="download" class="btn btn-success">Download</button>
+        </form>
+
+        <!-- File Deletion (Only for File Owner) -->
+        {% if user == file.user %}
+          <form method="POST" action="{% url 'delete_file' file.pk %}" class="mt-3">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete File</button>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</body>
