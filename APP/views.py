@@ -141,17 +141,21 @@ def uploaded_file_detail(request, pk):
     if request.method == "POST":
         # Check if the download button was clicked
         if "download" in request.POST:
-            # Record the download in DownloadHistory
-            DownloadHistory.objects.create(user=request.user, file=file)
+            # Check if the user has already downloaded this file
+            if not DownloadHistory.objects.filter(user=request.user, file=file).exists():
+                # Record the download in DownloadHistory
+                DownloadHistory.objects.create(user=request.user, file=file)
 
-            # Increase the seed count
-            file.seed_count += 1
-            file.save()
+                # Increase the seed count
+                file.seed_count += 1
+                file.save()
 
-            # Proceed with the actual file download
-            response = redirect(file.file.url)
-            response['Content-Disposition'] = f'attachment; filename={file.name}'
-            return response
+                # Proceed with the actual file download
+                response = redirect(file.file.url)
+                response['Content-Disposition'] = f'attachment; filename={file.name}'
+                return response
+            else:
+                messages.info(request, "You have already downloaded this file.")
 
     return render(request, 'uploaded_file_detail.html', {"file": file})
 
@@ -251,3 +255,12 @@ def save_message(request):
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
+
+def user_uploads(request, username):
+    # Get the user object based on the username
+    user = get_object_or_404(User, username=username)
+    
+    # Fetch all files uploaded by this user
+    user_files = UploadedFile.objects.filter(user=user).order_by('-uploaded_at')
+    
+    return render(request, 'user_uploads.html', {'user': user, 'user_files': user_files})

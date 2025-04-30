@@ -1,34 +1,20 @@
 {% load static %}
-
 {% include 'includes/head.html' %}
 <body>
   {% include 'includes/background.html' %}
   {% include 'includes/nav.html' %}
-
-  {% if user.is_authenticated %}
-    {% include 'includes/dashboard.html' %}
-    <div class="container-custom" style="margin-left: 260px;">
-  {% else %}
-    <div class="container-custom">
-  {% endif %}
-
-    {% if query %}
-      <h2>Search Results for "{{ query }}"</h2>
-    {% else %}
-      <h2>Files</h2>
-    {% endif %}
+  
+  <div class="container-custom" style="margin-left: 260px;">
+    <h2>Files Uploaded by {{ user.username }}</h2>
     
-    {% include 'includes/messages.html' %}
-
-    {% if files %}
+    {% if user_files %}
       <div class="row">
-        {% for file in files %}
+        {% for file in user_files %}
           <div class="col-md-4 mb-4">
             <div class="card">
               {% if file.thumbnail %}
                 <img src="{{ file.thumbnail.url }}" class="card-img-top" alt="Thumbnail">
               {% else %}
-                <!-- Use static tag for the default thumbnail image -->
                 <img src="{% static 'images/pp thumb.webp' %}" class="card-img-top" alt="Default Thumbnail">
               {% endif %}
               <div class="card-body">
@@ -41,7 +27,7 @@
         {% endfor %}
       </div>
     {% else %}
-      <p>No files found matching your search.</p>
+      <p>{{ user.username }} has not uploaded any files yet.</p>
     {% endif %}
   </div>
 </body>

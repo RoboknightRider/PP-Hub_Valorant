@@ -14,6 +14,7 @@ urlpatterns = [
     path('files/', views.files, name='files'),  # Ensure trailing slash here
     path('delete_file/<int:pk>/', views.delete_file, name='delete_file'),
     path('profile/', views.profile_view, name='profile'),
+    path('user/<str:username>/uploads/', views.user_uploads, name='user_uploads'),
     path("settings/", views.settings_view, name="settings"),
     path('api/get_messages/', views.get_messages, name='get_messages'),
     path('api/save_message/', views.save_message, name='save_message'),
