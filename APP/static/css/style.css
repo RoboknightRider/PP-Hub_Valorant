@@ -14,7 +14,7 @@ body {
     overflow: hidden;
     display: flex; /* Use flexbox to manage layout */
     justify-content: center; /* Center the container horizontally */
-    align-items: flex-start; /* Align the container at the top */
+    align-items: center; /* Align the container at the top */
 }
 
 .container-custom {

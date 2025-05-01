@@ -30,15 +30,17 @@
 <style>
     .nav-custom {
         background: #4a98f7;
-        padding: 15px 50px;
+        padding: 15px 20px; /* Adjust padding for better responsiveness */
         display: flex;
         align-items: center;
         justify-content: space-between;
-        flex-wrap: nowrap; /* Prevent wrapping */
+        flex-wrap: wrap; /* Allow wrapping for smaller screens */
         width: 100%; /* Ensure it spans the full width */
-        position: fixed; /* Ensure it stays in place */
+        position: fixed; /* Keep it fixed at the top */
+        top: 0; /* Ensure it stays at the top */
+        left: 0; /* Align to the left edge */
         box-sizing: border-box; /* Include padding in width calculation */
-        z-index: 900;
+        z-index: 900; /* Ensure it stays above other elements */
     }
 
     .nav-custom .logo-image {
