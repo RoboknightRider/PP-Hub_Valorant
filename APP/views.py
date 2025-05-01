@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.middleware.csrf import get_token
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 from .models import StudentProfile, UploadedFile, DownloadHistory
 from .utils import calculate_torrent_hash, get_peers_count
 import os
@@ -13,9 +14,13 @@ def home(request):
     if not request.user.is_authenticated:
         return render(request, 'home.html')
     else:
-        profile = StudentProfile.objects.get(user=request.user)
-        latest_files = UploadedFile.objects.order_by('-uploaded_at')[:10]
-        return render(request, 'home2.html', {"profile": profile, "latest_files": latest_files})
+        try:
+            profile = StudentProfile.objects.get(user=request.user)
+            latest_files = UploadedFile.objects.order_by('-uploaded_at')[:10]
+            return render(request, 'home2.html', {"profile": profile, "latest_files": latest_files})
+        except ObjectDoesNotExist:
+            messages.error(request, "Student profile not found. Please log in again.")
+            return redirect('login')  # Redirect to login page with error message
 
 # Registration view
 def register(request):
@@ -68,6 +73,7 @@ def register(request):
 
 # Login view
 def login_view(request):
+    logout(request)
     if request.method == "POST":
         username = request.POST["username"]
         password = request.POST["password"]
